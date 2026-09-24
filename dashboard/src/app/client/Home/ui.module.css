@@ -1,0 +1,232 @@
+.main {
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background: #0b0b0b;
+
+  color: white;
+}
+
+.header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 30px;
+
+  padding-bottom: 24px;
+
+  border-bottom: 1px solid white;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+
+  color: #7c7c7c;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 38px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.04em;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+
+  color: #8d8d8d;
+
+  font-size: 14px;
+}
+
+.total {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 2px;
+}
+
+.total span {
+  color: #777777;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.1em;
+}
+
+.total strong {
+  font-size: 30px;
+}
+
+.filters {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+
+  gap: 16px;
+
+  padding: 24px 0;
+}
+
+.filterActions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  padding-bottom: 18px;
+}
+
+.clearButton {
+  height: 38px;
+
+  padding: 0 18px;
+
+  background: #111111;
+
+  border: 1px solid white;
+
+  border-radius: 0;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.clearButton:hover {
+  background: white;
+
+  color: black;
+}
+
+.tableSection {
+  width: 100%;
+}
+
+.loading {
+  padding: 70px 20px;
+
+  border: 1px solid white;
+
+  text-align: center;
+
+  color: #777777;
+
+  background: #101010;
+}
+
+.pagination {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-top: 18px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid white;
+}
+
+.pageInfo {
+  color: #8a8a8a;
+
+  font-size: 13px;
+}
+
+.pageInfo strong {
+  color: white;
+}
+
+.paginationButtons {
+  display: flex;
+
+  gap: 8px;
+}
+
+.paginationButtons button {
+  height: 38px;
+
+  padding: 0 16px;
+
+  background: #111111;
+
+  border: 1px solid white;
+
+  border-radius: 0;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.paginationButtons button:hover:not(:disabled) {
+  background: white;
+
+  color: black;
+}
+
+.paginationButtons button:disabled {
+  opacity: 0.25;
+
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+
+  .main {
+    padding: 20px;
+  }
+
+  .header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .total {
+    align-items: flex-start;
+  }
+
+  .pagination {
+    align-items: stretch;
+
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .paginationButtons {
+    width: 100%;
+  }
+
+  .paginationButtons button {
+    flex: 1;
+  }
+}

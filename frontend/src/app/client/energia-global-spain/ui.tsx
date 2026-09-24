@@ -88,7 +88,7 @@ export default function EnergiaGlobalSpainConsentimientoClient() {
 
         await submitData({
             dni: dni,
-            origen: "ENERGIA",
+            origen: "ENERGIA_GLOBAL_SPAIN",
             num_telefono: numTelefono,
             num_contacto: numContacto,
             nombre_completo: nombreCompleto,

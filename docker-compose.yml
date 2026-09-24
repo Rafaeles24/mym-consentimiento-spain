@@ -6,51 +6,74 @@ services:
     restart: always
 
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: formmym
-      MYSQL_USER: dieguitoYlasBasecitas
-      MYSQL_PASSWORD: AaS9LDtGr30y73fIFXAs
-  
-    ports: 
-      - "3306:3306" 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
     volumes:
       - db_data:/var/lib/mysql
         
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p240901"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 5s
       retries: 20
 
   backend:
-    build: ./backend
-    container_name: mym_backend
+    image: consentimiento-backend:${BACKEND_VERSION:-v1.2026.0}
+    build: 
+      context: ./backend
+    
+    container_name: consentimientomym_backend
     restart: always
     ports:
-      - "3001:3001"
+      - "4000:3001"
     environment:
-      DATABASE_URL: mysql://root:240901@db:3306/flyermym
-      BASE_URL: http://192.168.10.16:6005
-      PORT: 3001
-      JWT_SECRET: CQzcP8cZlcYulBMEJAUkh8My680YWocj6glt6fuLQSJ
+      DATABASE_URL: ${DATABASE_URL}
+      BASE_URL: ${BASE_URL}
+      PORT: ${PORT}
+      JWT_SECRET: ${JWT_SECRET}
     
     volumes:
-      - ./Backend/uploads:/app/uploads
+      - ./backend/uploads:/app/uploads
     
     depends_on:
-      - db
+      db: 
+        condition: service_healthy
   
   frontend: 
-    build: ./frontend
-    container_name: mym_frontend
+    image: consentimiento-frontend:${FRONTEND_VERSION:-v1.2026.0}
+    build: 
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_BACKEND_API_URL: ${NEXT_PUBLIC_BACKEND_API_URL}
+    
+    container_name: consentimientomym_frontend
     restart: always
     ports:
       - "3000:3000"
     
     environment:
-      BACKEND_INTERNAL_URL: http://backend:3001
-      NEXT_PUBLIC_BACKEND_API_URL: http://192.168.10.16:3001
+      BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL}
+
+    depends_on:
+      - backend
+  
+  dashboard:
+    image: consentimiento-dashboard:${DASHBOARD_VERSION:-v1.2026.0}
+    build: 
+      context: ./dashboard
+      args:
+        NEXT_PUBLIC_BACKEND_API_URL: ${NEXT_PUBLIC_BACKEND_API_URL}
+    
+    containter_name: consentimientomym_dashboard
+    restart: always
+    ports:
+      - "4001:3000"
+    
+    environment:
+      BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL}
 
     depends_on:
       - backend

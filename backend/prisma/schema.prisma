@@ -13,26 +13,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Demo_Telecom {
-  id Int @id @default(autoincrement())
-  dni String @unique @db.VarChar(18)
-  num_telefono String @unique @db.VarChar(9)
-  num_contacto String @db.VarChar(9)
-  nombre_completo String @db.VarChar(255)
-  verificado Boolean @default(false)
-  direccion_ip String? @db.VarChar(255)
-  fecha_consentimiento DateTime @default(now())
+model Consentimiento {
+  id                   Int                @id @default(autoincrement())
+  tipo_consentimiento  TipoConsentimiento
+  dni                  String             @db.VarChar(18)
+  num_telefono         String             @db.VarChar(9)
+  num_contacto         String             @db.VarChar(9)
+  nombre_completo      String             @db.VarChar(255)
+  verificado           Boolean            @default(false)
+  direccion_ip         String?            @db.VarChar(255)
+  fecha_consentimiento DateTime           @default(now())
+
+  @@unique( name: "dni_tipo", [dni, tipo_consentimiento])
+  @@unique( name: "telefono_tipo", [num_telefono, tipo_consentimiento])
+
+  @@index([tipo_consentimiento])
 }
 
-model Energia_Global_Spain {
-  id Int @id @default(autoincrement())
-  dni String @unique @db.VarChar(18)
-  num_telefono String @unique @db.VarChar(9)
-  num_contacto String @db.VarChar(9)
-  nombre_completo String @db.VarChar(255)
-  verificado Boolean @default(false)
-  direccion_ip String? @db.VarChar(255)
-  fecha_consentimiento DateTime @default(now())
+enum TipoConsentimiento {
+  DEMO_TELECOM
+  ENERGIA_GLOBAL_SPAIN
 }
-
-
