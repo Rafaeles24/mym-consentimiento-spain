@@ -1,5 +1,4 @@
 services: 
-
   db: 
     image: mysql:8
     container_name: mym_db
@@ -67,7 +66,7 @@ services:
       args:
         NEXT_PUBLIC_BACKEND_API_URL: ${NEXT_PUBLIC_BACKEND_API_URL}
     
-    containter_name: consentimientomym_dashboard
+    container_name: consentimientomym_dashboard
     restart: always
     ports:
       - "4001:3000"
