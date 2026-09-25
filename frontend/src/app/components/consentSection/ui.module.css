@@ -3,8 +3,8 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    border: 1px solid #2bb394;
-    color: #2bb394;
+    border: 1px solid #008a00;
+    color: #008a00;
     border-radius: 5px;
     max-width: 300px;
     padding: 10px 14px;
@@ -14,7 +14,7 @@
 }
 
 .concentHeader:hover {
-    background-color: #249e84;
+    background-color: #008a00;
     color: white;
 }
 

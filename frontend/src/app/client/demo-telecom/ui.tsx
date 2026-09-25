@@ -11,6 +11,8 @@ import Checkbox from "@/app/components/checkbox/ui";
 import ButtonSubmit from "@/app/components/button/ui";
 import SuccessPopup from "@/app/components/successPopup/ui";
 import ErrorToast from "@/app/components/errorToast/ui";
+import VodafoneLogo from "@/images/vodafoneLogo.png";
+import Image from "next/image";
 
 export default function DemoTelecomConsentimientoClient() {
     const [ dni, setDni ] = useState<string>("");
@@ -140,6 +142,15 @@ export default function DemoTelecomConsentimientoClient() {
                 />
             }
             <div className={styles.card}>
+                <div className={styles.logo}>
+                  <Image
+                    src={VodafoneLogo}
+                    height={70}
+                    width={70}
+                    alt=""
+                  />
+                </div>
+
                 <p className={styles.desc}>
                     Si estás interesado en recibir una oferta de telecomunicaciones o energía rellena el formulario y nos pondremos en contacto contigo.
                 </p>
@@ -181,7 +192,7 @@ export default function DemoTelecomConsentimientoClient() {
                     <div className={styles.checkboxWrap}>
                         <ConsentSection/>
                         <Checkbox
-                            content="He leído y acepto la Política de Privacidad y consiento que  Energía Global Spain SI trate mis datos para enviarme información comercial sobre sus productos y servicios, por medios telefónicos, SMS, mensajería instantánea (como WhatsApp) y correo electrónico, incluso por medios automatizados."
+                            content="He leído y acepto la Política de Privacidad y consiento que Demo Telecom SL trate mis datos para enviarme información comercial sobre sus productos y servicios, por medios telefónicos, SMS, mensajería instantánea (como WhatsApp) y correo electrónico, incluso por medios automatizados."
                             checked={verificado}
                             onChange={(e) => setVerificado(e.target.checked)}
                             error={verificadoErr}

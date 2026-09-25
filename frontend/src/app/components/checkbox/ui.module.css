@@ -26,8 +26,8 @@
 
 /* Estado checked */
 .input:checked + .custom {
-    background-color: #1976d2;
-    border-color: #1976d2;
+    background-color: #008a00;
+    border-color: #008a00;
     position: relative;
 }
 
@@ -46,7 +46,7 @@
 
 /* Hover */
 .container:hover .custom {
-    border-color: #1976d2;
+    border-color: #008a00;
 }
 
 .text {

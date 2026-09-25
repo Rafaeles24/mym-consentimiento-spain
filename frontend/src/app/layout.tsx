@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DROPLET DO - MYM CONSENTIMIENTOS",
+  title: "MYM consentimientos",
   description: "Formulario de consentimientos",
 };
 
