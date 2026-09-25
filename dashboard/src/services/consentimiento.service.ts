@@ -1,6 +1,6 @@
 import { ConsentimientoFiltros, ConsentimientosResponse, TipoConsentimiento } from "@/types/consentimiento.type";
 
-const API_URL = process.env.BACKEND_INTERNAL_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:3001";
 
 export async function getConsentimiento(
   origen: TipoConsentimiento,
