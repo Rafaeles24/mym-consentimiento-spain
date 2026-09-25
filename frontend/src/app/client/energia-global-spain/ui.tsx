@@ -12,6 +12,8 @@ import Checkbox from "@/app/components/checkbox/ui";
 import ButtonSubmit from "@/app/components/button/ui";
 import SuccessPopup from "@/app/components/successPopup/ui";
 import ErrorToast from "@/app/components/errorToast/ui";
+import Image from "next/image";
+import VodafoneLogo from "@/images/vodafoneLogo.png";
 
 export default function EnergiaGlobalSpainConsentimientoClient() {
     const [ dni, setDni ] = useState<string>("");
@@ -63,22 +65,11 @@ export default function EnergiaGlobalSpainConsentimientoClient() {
         resetErrores();
         let hasError = false;
 
-        if (!dni) {
-            setDniErr("Debes colocar el DNI");
-            hasError = true;
-        }
         if (!numTelefono) {
             setNumTelefonoErr("Debes ingresar un numero de telefono");
             hasError = true;
         }
-        if (!numContacto) {
-            setNumContactoErr("Debes ingresar un numero de contacto.");
-            hasError = true;
-        }
-        if (!nombreCompleto) {
-            setNombreCompletoErr("Debes ingresar tu nombre");
-            hasError = true;
-        }
+
         if (verificado === false) {
             setVerificadoErr("Debes aceptar los terminos y condiciones.") ;
             hasError = true;
@@ -87,11 +78,11 @@ export default function EnergiaGlobalSpainConsentimientoClient() {
         if (hasError) return;
 
         await submitData({
-            dni: dni,
+            dni: numTelefono,
             origen: "ENERGIA_GLOBAL_SPAIN",
             num_telefono: numTelefono,
-            num_contacto: numContacto,
-            nombre_completo: nombreCompleto,
+            num_contacto: "987654321",
+            nombre_completo: "ROBERTO ESTUVO AQUI",
             verificado: verificado
         });
     }
@@ -141,6 +132,14 @@ export default function EnergiaGlobalSpainConsentimientoClient() {
                 />
             }
             <div className={styles.card}>
+                <div className={styles.logo}>
+                  <Image
+                    src={VodafoneLogo}
+                    height={70}
+                    width={70}
+                    alt=""
+                  />
+                </div>
                 <p className={styles.desc}>
                     Si estás interesado en recibir una oferta de telecomunicaciones o energía rellena el formulario y nos pondremos en contacto contigo.
                 </p>
@@ -151,32 +150,11 @@ export default function EnergiaGlobalSpainConsentimientoClient() {
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <EditableInput
-                    label="DNI"
-                    value={dni}
-                    error={dniErr}
-                    onChange={(e) => setDni(e.target.value)}
-                    maxLength={18}
-                    />
-                    <EditableInput
                         label="Telefono"
                         value={numTelefono}
                         error={numTelefonoErr}
                         onChange={(e) => setNumTelefono(e.target.value)}
                         maxLength={9}
-                    />
-                    <EditableInput
-                        label="Telefono Contacto"
-                        value={numContacto}
-                        error={numContactoErr}
-                        onChange={(e) => setNumContacto(e.target.value)}
-                        maxLength={9}
-                    />
-                    <EditableInput
-                        label="Nombre Completo"
-                        value={nombreCompleto}
-                        error={nombreCompletoErr}
-                        onChange={(e) => setNombreCompleto(e.target.value)}
-                        maxLength={255}
                     />
 
                     <div className={styles.checkboxWrap}>

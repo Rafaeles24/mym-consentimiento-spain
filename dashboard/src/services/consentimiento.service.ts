@@ -1,25 +1,53 @@
-import { ConsentimientoFiltros, ConsentimientosResponse, TipoConsentimiento } from "@/types/consentimiento.type";
+import {
+  ConsentimientoFiltros,
+  ConsentimientoResponse,
+  TipoConsentimiento,
+} from "@/types/consentimiento.type";
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:3001";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_BACKEND_API_URL ??
+  "http://localhost:3001";
+
 
 export async function getConsentimiento(
   origen: TipoConsentimiento,
   page: number,
   limit: number,
-  filtros: ConsentimientoFiltros
-) : Promise<ConsentimientosResponse> {
-  const params = new URLSearchParams();
+  filtros: ConsentimientoFiltros,
+): Promise<ConsentimientoResponse> {
 
-  params.set("page", String(page));
-  params.set("limit", String(limit));
+  const params =
+    new URLSearchParams();
+
+
+  params.set(
+    "page",
+    page.toString(),
+  );
+
+
+  params.set(
+    "limit",
+    limit.toString(),
+  );
+
 
   if (filtros.dni) {
-    params.set("dni", filtros.dni);
+    params.set(
+      "dni",
+      filtros.dni,
+    );
   }
 
+
   if (filtros.num_telefono) {
-    params.set("num_telefono", filtros.num_telefono);
+    params.set(
+      "num_telefono",
+      filtros.num_telefono,
+    );
   }
+
 
   if (filtros.num_contacto) {
     params.set(
@@ -28,12 +56,14 @@ export async function getConsentimiento(
     );
   }
 
+
   if (filtros.nombre_completo) {
     params.set(
       "nombre_completo",
       filtros.nombre_completo,
     );
   }
+
 
   if (filtros.verificado) {
     params.set(
@@ -42,12 +72,14 @@ export async function getConsentimiento(
     );
   }
 
+
   if (filtros.direccion_ip) {
     params.set(
       "direccion_ip",
       filtros.direccion_ip,
     );
   }
+
 
   if (filtros.fechaInicio) {
     params.set(
@@ -56,24 +88,39 @@ export async function getConsentimiento(
     );
   }
 
+
   if (filtros.fechaFin) {
     params.set(
       "fechaFin",
       filtros.fechaFin,
     );
-  }  
+  }
 
-  const response = await fetch(
-    `${API_URL}/system/consentimiento/${origen}?${params.toString()}`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  )
+
+  const response =
+    await fetch(
+      `${API_URL}/system/consentimiento/${origen}?${params.toString()}`,
+      {
+        method: "GET",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        cache: "no-store",
+      },
+    );
+
 
   if (!response.ok) {
-    throw new Error("No se pudieron obtener los consentimientos.");
+
+    throw new Error(
+      `Error obteniendo consentimientos: ${response.status}`,
+    );
+
   }
+
 
   return response.json();
 }
@@ -81,27 +128,41 @@ export async function getConsentimiento(
 export async function actualizarFechaConsentimiento(
   origen: TipoConsentimiento,
   id: number,
-  fecha: string,
+  fecha_consentimiento: string,
 ) {
-  const response = await fetch(
-    `${API_URL}/system/consentimiento/${origen}/${id}/fecha`, 
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        fecha_consentimiento: fecha,
-      })
-    }
-  );
 
-  const data = await response.json();
+  const response =
+    await fetch(
+      `${API_URL}/system/consentimiento/${origen}/${id}/fecha`,
+      {
+        method: "PATCH",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          fecha_consentimiento,
+        }),
+      },
+    );
+
 
   if (!response.ok) {
-    throw new Error(data?.message ?? "No se puedo actualizar la fecha");
+
+    const error =
+      await response
+        .json()
+        .catch(() => null);
+
+
+    throw new Error(
+      error?.message ??
+        `Error actualizando fecha: ${response.status}`,
+    );
   }
 
-  return data;
 
+  return response.json();
 }

@@ -6,41 +6,55 @@ import {
 } from "react";
 
 import styles from "./ui.module.css";
-import { Consentimiento, ConsentimientoFiltros, Pagination, TipoConsentimiento } from "@/types/consentimiento.type";
-import { getConsentimiento } from "@/services/consentimiento.service";
-import FiltroOrigen from "@/components/filtroOrigen/ui";
+
+import {
+  Consentimiento,
+  ConsentimientoFiltros,
+  Pagination,
+  TipoConsentimiento,
+} from "@/types/consentimiento.type";
+
+import {
+  getConsentimiento,
+} from "@/services/consentimiento.service";
+
 import FiltroInput from "@/components/filtroInput/ui";
 import FiltroVerificado from "@/components/filtroVerificado/ui";
 import TablaConsentimientos from "@/components/tablaConsentimiento/ui";
 
-const filtrosIniciales:
-  ConsentimientoFiltros = {
 
-    dni: "",
-
-    num_telefono: "",
-
-    num_contacto: "",
-
-    nombre_completo: "",
-
-    verificado: "",
-
-    direccion_ip: "",
-
-    fechaInicio: "",
-
-    fechaFin: "",
-  };
+interface Props {
+  origen: TipoConsentimiento;
+  titulo: string;
+}
 
 
-export default function HomeUI() {
+const filtrosIniciales: ConsentimientoFiltros = {
+  dni: "",
+  num_telefono: "",
+  num_contacto: "",
+  nombre_completo: "",
+  verificado: "",
+  direccion_ip: "",
+  fechaInicio: "",
+  fechaFin: "",
+};
 
-  const [origen, setOrigen] =
-    useState<TipoConsentimiento>(
-      "DEMO_TELECOM",
-    );
 
+const paginacionInicial: Pagination = {
+  page: 1,
+  limit: 20,
+  total: 0,
+  totalPages: 0,
+  hasNextPage: false,
+  hasPreviousPage: false,
+};
+
+
+export default function ConsentimientosUI({
+  origen,
+  titulo,
+}: Props) {
 
   const [filtros, setFiltros] =
     useState<ConsentimientoFiltros>(
@@ -53,14 +67,9 @@ export default function HomeUI() {
 
 
   const [pagination, setPagination] =
-    useState<Pagination>({
-      page: 1,
-      limit: 20,
-      total: 0,
-      totalPages: 0,
-      hasNextPage: false,
-      hasPreviousPage: false,
-    });
+    useState<Pagination>(
+      paginacionInicial,
+    );
 
 
   const [loading, setLoading] =
@@ -72,9 +81,7 @@ export default function HomeUI() {
 
 
   function cambiarFiltro(
-    campo:
-      keyof ConsentimientoFiltros,
-
+    campo: keyof ConsentimientoFiltros,
     valor: string,
   ) {
 
@@ -85,10 +92,27 @@ export default function HomeUI() {
       }),
     );
 
+
     setFiltros(
       (prev) => ({
         ...prev,
         [campo]: valor,
+      }),
+    );
+  }
+
+
+  function limpiarFiltros() {
+
+    setFiltros(
+      filtrosIniciales,
+    );
+
+
+    setPagination(
+      (prev) => ({
+        ...prev,
+        page: 1,
       }),
     );
   }
@@ -104,14 +128,12 @@ export default function HomeUI() {
 
             setLoading(true);
 
+
             const response =
               await getConsentimiento(
                 origen,
-
                 pagination.page,
-
                 pagination.limit,
-
                 filtros,
               );
 
@@ -128,8 +150,11 @@ export default function HomeUI() {
           } catch (error) {
 
             console.error(
+              "Error obteniendo consentimientos:",
               error,
             );
+
+            setData([]);
 
           } finally {
 
@@ -143,8 +168,9 @@ export default function HomeUI() {
       );
 
 
-    return () =>
+    return () => {
       clearTimeout(timer);
+    };
 
   }, [
     origen,
@@ -155,23 +181,12 @@ export default function HomeUI() {
   ]);
 
 
-  function limpiarFiltros() {
-
-    setFiltros(
-      filtrosIniciales,
-    );
-
-    setPagination(
-      (prev) => ({
-        ...prev,
-        page: 1,
-      }),
-    );
-  }
-
-
   return (
+
     <main className={styles.main}>
+
+
+      {/* HEADER */}
 
       <header className={styles.header}>
 
@@ -181,9 +196,11 @@ export default function HomeUI() {
             Administración
           </p>
 
+
           <h1 className={styles.title}>
-            Consentimientos
+            {titulo}
           </h1>
+
 
           <p className={styles.subtitle}>
             Consulta y administra los
@@ -192,50 +209,32 @@ export default function HomeUI() {
 
         </div>
 
-        <div
-          className={styles.total}
-        >
+
+        <div className={styles.total}>
+
           <span>
             Registros
           </span>
 
+
           <strong>
             {pagination.total}
           </strong>
+
         </div>
 
       </header>
 
 
-      <section
-        className={
-          styles.filters
-        }
-      >
+      {/* FILTROS */}
 
-        <FiltroOrigen
-          value={origen}
-
-          onChange={(value) => {
-
-            setOrigen(value);
-
-            setPagination(
-              (prev) => ({
-                ...prev,
-                page: 1,
-              }),
-            );
-
-          }}
-        />
+      <section className={styles.filters}>
 
 
         <FiltroInput
           label="DNI"
           value={filtros.dni}
           placeholder="Buscar DNI"
-
           onChange={(value) =>
             cambiarFiltro(
               "dni",
@@ -251,7 +250,6 @@ export default function HomeUI() {
             filtros.nombre_completo
           }
           placeholder="Buscar nombre"
-
           onChange={(value) =>
             cambiarFiltro(
               "nombre_completo",
@@ -267,7 +265,6 @@ export default function HomeUI() {
             filtros.num_telefono
           }
           placeholder="Buscar teléfono"
-
           onChange={(value) =>
             cambiarFiltro(
               "num_telefono",
@@ -283,7 +280,6 @@ export default function HomeUI() {
             filtros.num_contacto
           }
           placeholder="Buscar contacto"
-
           onChange={(value) =>
             cambiarFiltro(
               "num_contacto",
@@ -297,7 +293,6 @@ export default function HomeUI() {
           value={
             filtros.verificado
           }
-
           onChange={(value) =>
             cambiarFiltro(
               "verificado",
@@ -313,7 +308,6 @@ export default function HomeUI() {
             filtros.direccion_ip
           }
           placeholder="Buscar IP"
-
           onChange={(value) =>
             cambiarFiltro(
               "direccion_ip",
@@ -329,7 +323,6 @@ export default function HomeUI() {
           value={
             filtros.fechaInicio
           }
-
           onChange={(value) =>
             cambiarFiltro(
               "fechaInicio",
@@ -345,7 +338,6 @@ export default function HomeUI() {
           value={
             filtros.fechaFin
           }
-
           onChange={(value) =>
             cambiarFiltro(
               "fechaFin",
@@ -357,16 +349,13 @@ export default function HomeUI() {
       </section>
 
 
-      <div
-        className={
-          styles.filterActions
-        }
-      >
+      {/* ACCIONES DE FILTROS */}
+
+      <div className={styles.filterActions}>
 
         <button
-          className={
-            styles.clearButton
-          }
+          type="button"
+          className={styles.clearButton}
           onClick={
             limpiarFiltros
           }
@@ -377,19 +366,13 @@ export default function HomeUI() {
       </div>
 
 
-      <section
-        className={
-          styles.tableSection
-        }
-      >
+      {/* TABLA */}
+
+      <section className={styles.tableSection}>
 
         {loading ? (
 
-          <div
-            className={
-              styles.loading
-            }
-          >
+          <div className={styles.loading}>
             Cargando registros...
           </div>
 
@@ -397,7 +380,6 @@ export default function HomeUI() {
 
           <TablaConsentimientos
             data={data}
-
             onFechaUpdated={() =>
               setReload(
                 (prev) =>
@@ -411,17 +393,11 @@ export default function HomeUI() {
       </section>
 
 
-      <footer
-        className={
-          styles.pagination
-        }
-      >
+      {/* PAGINACIÓN */}
 
-        <div
-          className={
-            styles.pageInfo
-          }
-        >
+      <footer className={styles.pagination}>
+
+        <div className={styles.pageInfo}>
 
           Página{" "}
 
@@ -448,15 +424,14 @@ export default function HomeUI() {
         >
 
           <button
+            type="button"
             disabled={
               !pagination.hasPreviousPage
             }
-
             onClick={() =>
               setPagination(
                 (prev) => ({
                   ...prev,
-
                   page:
                     prev.page - 1,
                 }),
@@ -468,15 +443,14 @@ export default function HomeUI() {
 
 
           <button
+            type="button"
             disabled={
               !pagination.hasNextPage
             }
-
             onClick={() =>
               setPagination(
                 (prev) => ({
                   ...prev,
-
                   page:
                     prev.page + 1,
                 }),

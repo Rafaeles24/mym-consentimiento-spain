@@ -64,22 +64,11 @@ export default function DemoTelecomConsentimientoClient() {
         resetErrores();
         let hasError = false;
 
-        if (!dni) {
-            setDniErr("Debes colocar el DNI");
-            hasError = true;
-        }
         if (!numTelefono) {
             setNumTelefonoErr("Debes ingresar un numero de telefono");
             hasError = true;
         }
-        if (!numContacto) {
-            setNumContactoErr("Debes ingresar un numero de contacto.");
-            hasError = true;
-        }
-        if (!nombreCompleto) {
-            setNombreCompletoErr("Debes ingresar tu nombre");
-            hasError = true;
-        }
+
         if (verificado === false) {
             setVerificadoErr("Debes aceptar los terminos y condiciones.") ;
             hasError = true;
@@ -88,11 +77,11 @@ export default function DemoTelecomConsentimientoClient() {
         if (hasError) return;
 
         await submitData({
-            dni: dni,
+            dni: numTelefono,
             origen: "DEMO_TELECOM",
             num_telefono: numTelefono,
-            num_contacto: numContacto,
-            nombre_completo: nombreCompleto,
+            num_contacto: "987654321",
+            nombre_completo: "WALTER ESTUVO AQUI",
             verificado: verificado
         });
     }
@@ -161,32 +150,11 @@ export default function DemoTelecomConsentimientoClient() {
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <EditableInput
-                    label="DNI"
-                    value={dni}
-                    error={dniErr}
-                    onChange={(e) => setDni(e.target.value)}
-                    maxLength={18}
-                    />
-                    <EditableInput
                         label="Telefono"
                         value={numTelefono}
                         error={numTelefonoErr}
                         onChange={(e) => setNumTelefono(e.target.value)}
                         maxLength={9}
-                    />
-                    <EditableInput
-                        label="Telefono Contacto"
-                        value={numContacto}
-                        error={numContactoErr}
-                        onChange={(e) => setNumContacto(e.target.value)}
-                        maxLength={9}
-                    />
-                    <EditableInput
-                        label="Nombre Completo"
-                        value={nombreCompleto}
-                        error={nombreCompletoErr}
-                        onChange={(e) => setNombreCompleto(e.target.value)}
-                        maxLength={255}
                     />
 
                     <div className={styles.checkboxWrap}>
