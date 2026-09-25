@@ -379,6 +379,7 @@ export default function ConsentimientosUI({
         ) : (
 
           <TablaConsentimientos
+            origen={origen}
             data={data}
             onFechaUpdated={() =>
               setReload(

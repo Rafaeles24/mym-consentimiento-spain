@@ -1,18 +1,27 @@
 "use client";
 
-import { Consentimiento } from "@/types/consentimiento.type";
-import FechaEditable
-  from "../fechaEditable/ui";
+import {
+  Consentimiento,
+  TipoConsentimiento,
+} from "@/types/consentimiento.type";
+
+import FechaEditable from "../fechaEditable/ui";
 
 import styles from "./ui.module.css";
 
-export default function TablaConsentimientos({
-  data,
-  onFechaUpdated,
-}: {
+
+interface Props {
+  origen: TipoConsentimiento;
   data: Consentimiento[];
   onFechaUpdated: () => void;
-}) {
+}
+
+
+export default function TablaConsentimientos({
+  origen,
+  data,
+  onFechaUpdated,
+}: Props) {
 
   if (!data.length) {
 
@@ -23,6 +32,7 @@ export default function TablaConsentimientos({
     );
 
   }
+
 
   return (
     <div className={styles.wrapper}>
@@ -44,24 +54,25 @@ export default function TablaConsentimientos({
 
         </thead>
 
+
         <tbody>
 
           {data.map(
             (consentimiento) => (
 
               <tr
-                key={
-                  consentimiento.id
-                }
+                key={consentimiento.id}
               >
 
                 <td>
                   {consentimiento.id}
                 </td>
 
+
                 <td>
                   {consentimiento.dni}
                 </td>
+
 
                 <td>
                   {
@@ -70,6 +81,7 @@ export default function TablaConsentimientos({
                   }
                 </td>
 
+
                 <td>
                   {
                     consentimiento
@@ -77,12 +89,14 @@ export default function TablaConsentimientos({
                   }
                 </td>
 
+
                 <td>
                   {
                     consentimiento
                       .num_contacto
                   }
                 </td>
+
 
                 <td>
 
@@ -102,6 +116,7 @@ export default function TablaConsentimientos({
 
                 </td>
 
+
                 <td>
                   {
                     consentimiento
@@ -110,20 +125,23 @@ export default function TablaConsentimientos({
                   }
                 </td>
 
+
                 <td>
 
                   <FechaEditable
                     id={
                       consentimiento.id
                     }
+
                     origen={
-                      consentimiento
-                        .tipo_consentimiento
+                      origen
                     }
+
                     fecha={
                       consentimiento
                         .fecha_consentimiento
                     }
+
                     onUpdated={
                       onFechaUpdated
                     }
