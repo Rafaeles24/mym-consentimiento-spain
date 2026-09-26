@@ -230,35 +230,6 @@ export default function ConsentimientosUI({
 
       <section className={styles.filters}>
 
-
-        <FiltroInput
-          label="DNI"
-          value={filtros.dni}
-          placeholder="Buscar DNI"
-          onChange={(value) =>
-            cambiarFiltro(
-              "dni",
-              value,
-            )
-          }
-        />
-
-
-        <FiltroInput
-          label="Nombre"
-          value={
-            filtros.nombre_completo
-          }
-          placeholder="Buscar nombre"
-          onChange={(value) =>
-            cambiarFiltro(
-              "nombre_completo",
-              value,
-            )
-          }
-        />
-
-
         <FiltroInput
           label="Teléfono"
           value={
@@ -272,22 +243,6 @@ export default function ConsentimientosUI({
             )
           }
         />
-
-
-        <FiltroInput
-          label="Contacto"
-          value={
-            filtros.num_contacto
-          }
-          placeholder="Buscar contacto"
-          onChange={(value) =>
-            cambiarFiltro(
-              "num_contacto",
-              value,
-            )
-          }
-        />
-
 
         <FiltroVerificado
           value={

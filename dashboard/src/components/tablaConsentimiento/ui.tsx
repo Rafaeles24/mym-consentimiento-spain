@@ -43,10 +43,7 @@ export default function TablaConsentimientos({
 
           <tr>
             <th>ID</th>
-            <th>DNI</th>
-            <th>Nombre</th>
             <th>Teléfono</th>
-            <th>Contacto</th>
             <th>Verificado</th>
             <th>IP</th>
             <th>Fecha consentimiento</th>
@@ -68,35 +65,12 @@ export default function TablaConsentimientos({
                   {consentimiento.id}
                 </td>
 
-
-                <td>
-                  {consentimiento.dni}
-                </td>
-
-
-                <td>
-                  {
-                    consentimiento
-                      .nombre_completo
-                  }
-                </td>
-
-
                 <td>
                   {
                     consentimiento
                       .num_telefono
                   }
                 </td>
-
-
-                <td>
-                  {
-                    consentimiento
-                      .num_contacto
-                  }
-                </td>
-
 
                 <td>
 
